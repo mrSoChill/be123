@@ -19,3 +19,21 @@ packages/
 *.pfx
 *.publishsettings
 Web.config.user
+
+# Visual Studio
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+# NuGet
+packages/
+
+# Local database
+*.mdf
+*.ldf
+
+# Environment
+.env
+.env.*
