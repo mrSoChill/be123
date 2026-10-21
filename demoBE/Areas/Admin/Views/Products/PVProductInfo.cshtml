@@ -1,0 +1,10 @@
+@model demoBE.Models.Product
+
+<dl class="row mb-0">
+    <dt class="col-sm-4">Mã sản phẩm</dt><dd class="col-sm-8">@Model.ProductID</dd>
+    <dt class="col-sm-4">Tên sản phẩm</dt><dd class="col-sm-8">@Model.ProductName</dd>
+    <dt class="col-sm-4">Danh mục</dt><dd class="col-sm-8">@(Model.Category == null ? "-" : Model.Category.CategoryName)</dd>
+    <dt class="col-sm-4">Mô tả</dt><dd class="col-sm-8">@Model.ProductDecription</dd>
+    <dt class="col-sm-4">Giá</dt><dd class="col-sm-8">@Model.ProductPrice.ToString("N0") ₫</dd>
+    <dt class="col-sm-4">Hình ảnh</dt><dd class="col-sm-8">@(string.IsNullOrWhiteSpace(Model.ProductImage) ? "-" : Model.ProductImage)</dd>
+</dl>

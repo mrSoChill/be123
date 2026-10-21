@@ -1,0 +1,19 @@
+@model demoBE.Models.Category
+@{
+    ViewBag.Title = "Thêm danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">Thêm danh mục</div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.Partial("PVCreateEditCategory", Model)
+            <button type="submit" class="btn btn-primary">Lưu danh mục</button>
+            @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-outline-secondary" })
+        }
+    </div>
+</div>
+@section scripts { @Scripts.Render("~/bundles/jqueryval") }

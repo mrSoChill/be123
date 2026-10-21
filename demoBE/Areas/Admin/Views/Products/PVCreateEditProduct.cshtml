@@ -1,0 +1,28 @@
+@model demoBE.Models.Product
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="mb-3">
+    @Html.LabelFor(model => model.CategoryID, "Danh mục", new { @class = "form-label" })
+    @Html.DropDownList("CategoryID", null, "-- Chọn danh mục --", new { @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+</div>
+<div class="mb-3">
+    @Html.LabelFor(model => model.ProductName, "Tên sản phẩm", new { @class = "form-label" })
+    @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control", maxlength = "255", autocomplete = "off" })
+    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+</div>
+<div class="mb-3">
+    @Html.LabelFor(model => model.ProductDecription, "Mô tả sản phẩm", new { @class = "form-label" })
+    @Html.TextAreaFor(model => model.ProductDecription, 4, 1, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.ProductDecription, "", new { @class = "text-danger" })
+</div>
+<div class="mb-3">
+    @Html.LabelFor(model => model.ProductPrice, "Giá sản phẩm", new { @class = "form-label" })
+    @Html.TextBoxFor(model => model.ProductPrice, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+    @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+</div>
+<div class="mb-3">
+    @Html.LabelFor(model => model.ProductImage, "Đường dẫn hình ảnh", new { @class = "form-label" })
+    @Html.TextBoxFor(model => model.ProductImage, new { @class = "form-control", maxlength = "1000", placeholder = "Ví dụ: /Content/images/san-pham.jpg" })
+    @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
+</div>

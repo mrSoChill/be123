@@ -1,0 +1,19 @@
+@model demoBE.Models.Product
+@{
+    ViewBag.Title = "Thêm sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">Thêm sản phẩm</div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.Partial("PVCreateEditProduct", Model)
+            <button type="submit" class="btn btn-primary">Lưu sản phẩm</button>
+            @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-outline-secondary" })
+        }
+    </div>
+</div>
+@section scripts { @Scripts.Render("~/bundles/jqueryval") }

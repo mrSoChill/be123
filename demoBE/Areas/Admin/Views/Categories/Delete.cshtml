@@ -1,0 +1,19 @@
+@model demoBE.Models.Category
+@{
+    ViewBag.Title = "Xóa danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-danger text-white">Xóa danh mục</div>
+    <div class="card-body">
+        <p>Bạn có chắc muốn xóa danh mục <strong>@Model.CategoryName</strong>?</p>
+        <p class="text-muted">Danh mục đang có sản phẩm tham chiếu sẽ không thể xóa.</p>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+            @Html.ActionLink("Hủy", "Index", null, new { @class = "btn btn-outline-secondary" })
+        }
+    </div>
+</div>

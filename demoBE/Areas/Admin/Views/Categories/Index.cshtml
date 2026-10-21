@@ -1,0 +1,49 @@
+@model IEnumerable<demoBE.Models.Category>
+@{
+    ViewBag.Title = "Quản lý danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="h3 mb-0">Quản lý danh mục</h1>
+    @Html.ActionLink("Thêm danh mục", "Create", null, new { @class = "btn btn-primary" })
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">@TempData["ErrorMessage"]</div>
+}
+
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">Danh sách danh mục</div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light"><tr><th>Mã</th><th>Tên danh mục</th><th class="text-end">Thao tác</th></tr></thead>
+            <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CategoryID</td>
+                        <td>@item.CategoryName</td>
+                        <td class="text-end text-nowrap">
+                            @Html.ActionLink("Chi tiết", "Details", new { id = item.CategoryID }, new { @class = "btn btn-sm btn-outline-secondary" })
+                            @Html.ActionLink("Sửa", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-sm btn-outline-primary" })
+                            @Html.ActionLink("Xóa", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-sm btn-outline-danger" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="3" class="text-center text-muted py-4">Chưa có danh mục.</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

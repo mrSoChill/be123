@@ -1,0 +1,21 @@
+# Visual Studio user and build output
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# NuGet restore cache and downloaded package archives
+packages/
+*.nupkg
+
+# Local/runtime data and secrets
+**/App_Data/*.mdf
+**/App_Data/*.ldf
+*.mdf
+*.ldf
+*.sdf
+*.bak
+*.pfx
+*.publishsettings
+Web.config.user
