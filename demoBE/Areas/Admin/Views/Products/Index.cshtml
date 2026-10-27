@@ -1,7 +1,14 @@
-@model IEnumerable<demoBE.Models.Product>
+@model demoBE.Models.ViewModel.ProductSearchVM
 @{
     ViewBag.Title = "Quản lý sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var sortOptions = new[]
+    {
+        new SelectListItem { Text = "Tên sản phẩm: A đến Z", Value = "name_asc" },
+        new SelectListItem { Text = "Tên sản phẩm: Z đến A", Value = "name_desc" },
+        new SelectListItem { Text = "Giá: thấp đến cao", Value = "price_asc" },
+        new SelectListItem { Text = "Giá: cao đến thấp", Value = "price_desc" }
+    };
 }
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
@@ -18,35 +25,38 @@
     <div class="alert alert-danger" role="alert">@TempData["ErrorMessage"]</div>
 }
 
-<div class="card shadow-sm border-0">
-    <div class="card-header bg-primary text-white">Danh sách sản phẩm</div>
-    <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light"><tr><th>Mã</th><th>Sản phẩm</th><th>Danh mục</th><th class="text-end">Giá</th><th>Hình ảnh</th><th class="text-end">Thao tác</th></tr></thead>
-            <tbody>
-            @if (Model.Any())
-            {
-                foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.ProductID</td>
-                        <td><strong>@item.ProductName</strong><br /><small class="text-muted">@item.ProductDecription</small></td>
-                        <td>@(item.Category == null ? "-" : item.Category.CategoryName)</td>
-                        <td class="text-end">@item.ProductPrice.ToString("N0") ₫</td>
-                        <td>@(string.IsNullOrWhiteSpace(item.ProductImage) ? "-" : item.ProductImage)</td>
-                        <td class="text-end text-nowrap">
-                            @Html.ActionLink("Chi tiết", "Details", new { id = item.ProductID }, new { @class = "btn btn-sm btn-outline-secondary" })
-                            @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-sm btn-outline-primary" })
-                            @Html.ActionLink("Xóa", "Delete", new { id = item.ProductID }, new { @class = "btn btn-sm btn-outline-danger" })
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr><td colspan="6" class="text-center text-muted py-4">Chưa có sản phẩm.</td></tr>
-            }
-            </tbody>
-        </table>
+<div class="card shadow-sm border-0 mb-3">
+    <div class="card-header bg-primary text-white">Tìm kiếm và sắp xếp</div>
+    <div class="card-body">
+        @using (Html.BeginForm("Index", "Products", new { area = "Admin" }, FormMethod.Get, new { @class = "row g-3 align-items-end" }))
+        {
+            <div class="col-12 col-lg-4">
+                @Html.Label("searchTerm", "Tên, mô tả hoặc danh mục", new { @class = "form-label" })
+                @Html.TextBox("searchTerm", Model.SearchTerm, new { @class = "form-control", placeholder = "Nhập từ khóa cần tìm" })
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+                @Html.Label("minPrice", "Giá từ", new { @class = "form-label" })
+                @Html.TextBox("minPrice", Model.MinPrice, new { @class = "form-control", type = "number", min = "0", step = "1", placeholder = "0" })
+                @Html.ValidationMessage("minPrice", new { @class = "text-danger small" })
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+                @Html.Label("maxPrice", "Giá đến", new { @class = "form-label" })
+                @Html.TextBox("maxPrice", Model.MaxPrice, new { @class = "form-control", type = "number", min = "0", step = "1", placeholder = "Không giới hạn" })
+                @Html.ValidationMessage("maxPrice", new { @class = "text-danger small" })
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+                @Html.Label("sortOrder", "Sắp xếp", new { @class = "form-label" })
+                @Html.DropDownList("sortOrder", new SelectList(sortOptions, "Value", "Text", Model.SortOrder), new { @class = "form-select" })
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary flex-grow-1">Tìm kiếm</button>
+                @Html.ActionLink("Đặt lại", "Index", null, new { @class = "btn btn-outline-secondary" })
+            </div>
+            <div class="col-12">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger mb-0" })
+            </div>
+        }
     </div>
 </div>
+
+@Html.Partial("PVListProduct", Model)
