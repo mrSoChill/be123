@@ -1,0 +1,7 @@
+@model demoBE.Models.ViewModel.Cart
+@{
+    ViewBag.Title = "Mua hàng";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+@section styles { <link href="@Url.Content("~/Content/myStyle/Cart.css")" rel="stylesheet" /> }
+<section class="checkout-notice"><h1>Thông tin mua hàng</h1><p>Thanh toán, tạo đơn hàng và xác nhận đơn nằm trong bài sau. Trang này chỉ hiển thị tóm tắt giỏ hàng, không tạo dữ liệu Order.</p><p>Tổng các sản phẩm đã chọn: <strong>@Model.SelectedTotalValue.ToString("N0") ₫</strong></p><a class="btn btn-primary" href="@Url.Action("Index")">Quay lại giỏ hàng</a></section>

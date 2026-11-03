@@ -1,0 +1,10 @@
+@using PagedList.Mvc
+@model demoBE.Models.ViewModel.Cart
+<section class="similar-products" aria-labelledby="similarTitle"><h2 id="similarTitle">Sản phẩm cùng danh mục</h2>
+@if (Model.SimilarProducts != null && Model.SimilarProducts.Any())
+{
+    <div class="similar-grid">@foreach (var product in Model.SimilarProducts) { var imageUrl = string.IsNullOrWhiteSpace(product.ProductImage) ? Url.Content("~/Content/images/product-placeholder.svg") : Url.Content(product.ProductImage); <article><img src="@imageUrl" alt="@product.ProductName" onerror="this.onerror=null;this.src='@Url.Content("~/Content/images/product-placeholder.svg")';" /><h3>@product.ProductName</h3><p>@product.ProductPrice.ToString("N0") ₫</p>@using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post)) { @Html.AntiForgeryToken() @Html.Hidden("productID", product.ProductID) @Html.Hidden("quantity", 1) @Html.Hidden("returnUrl", Url.Action("Index2", "Cart")) <button class="btn btn-sm btn-outline-primary" type="submit">Thêm vào giỏ</button> }</article> }</div>
+    @Html.PagedListPager(Model.SimilarProducts, currentPage => Url.Action("Index2", new { page = currentPage }), new PagedListRenderOptions { LiElementClasses = new[] { "page-item" } })
+}
+else { <p class="empty-state">Chưa có gợi ý phù hợp hoặc tất cả sản phẩm cùng danh mục đã ở trong giỏ.</p> }
+</section>

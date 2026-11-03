@@ -1,0 +1,33 @@
+@model demoBE.Models.ViewModel.Cart
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+@section styles { <link href="@Url.Content("~/Content/myStyle/Cart.css")" rel="stylesheet" /> }
+<section class="cart-heading"><div><p class="text-uppercase">Giỏ hàng cơ bản</p><h1>Giỏ hàng của bạn</h1></div><a class="btn btn-outline-secondary" href="@Url.Action("Index2")">Xem giỏ nâng cao</a></section>
+@if (!Model.Items.Any())
+{
+    <div class="cart-empty"><h2>Giỏ hàng đang trống</h2><p>Hãy khám phá sản phẩm để thêm vào giỏ.</p><a class="btn btn-primary" href="@Url.Action("Index", "Home")">Tiếp tục mua hàng</a></div>
+}
+else
+{
+    <div class="cart-layout"><div class="cart-items">
+        @foreach (var item in Model.Items)
+        {
+            var imageUrl = string.IsNullOrWhiteSpace(item.ProductImage) ? Url.Content("~/Content/images/product-placeholder.svg") : Url.Content(item.ProductImage);
+            <article class="cart-item">
+                <img src="@imageUrl" alt="@item.ProductName" onerror="this.onerror=null;this.src='@Url.Content("~/Content/images/product-placeholder.svg")';" />
+                <div class="cart-item-info"><h2>@item.ProductName</h2><p>@item.Category</p><strong>@item.UnitPrice.ToString("N0") ₫</strong></div>
+                <div class="cart-item-action">
+                    @using (Html.BeginForm("UpdateSelection", "Cart", FormMethod.Post, new { @class = "cart-inline-form" }))
+                    { @Html.AntiForgeryToken() @Html.Hidden("productID", item.ProductID) <input type="hidden" name="isSelected" value="false" /><input class="form-check-input" type="checkbox" name="isSelected" value="true" checked="@(item.IsSelected ? "checked" : null)" onchange="this.form.submit()" aria-label="Chọn @item.ProductName" /> }
+                    @using (Html.BeginForm("UpdateQuantity", "Cart", FormMethod.Post, new { @class = "cart-inline-form" }))
+                    { @Html.AntiForgeryToken() @Html.Hidden("productID", item.ProductID) <label class="visually-hidden" for="quantity-@item.ProductID">Số lượng</label><input class="form-control" id="quantity-@item.ProductID" type="number" name="quantity" min="1" max="99" value="@item.Quantity" /><button class="btn btn-sm btn-outline-primary" type="submit">Cập nhật</button> }
+                    <span class="cart-line-total">@item.TotalPrice.ToString("N0") ₫</span>
+                    @using (Html.BeginForm("RemoveFromCart", "Cart", FormMethod.Post, new { @class = "cart-inline-form" }))
+                    { @Html.AntiForgeryToken() @Html.Hidden("productID", item.ProductID) <button class="btn btn-sm btn-link text-danger" type="submit">Xóa</button> }
+                </div>
+            </article>
+        }
+    </div><aside class="cart-summary"><h2>Tổng thanh toán</h2><p>Đã chọn <strong>@Model.Items.Count(item => item.IsSelected)</strong> sản phẩm</p><p class="cart-total">@Model.SelectedTotalValue.ToString("N0") ₫</p><a class="btn btn-primary w-100" href="@Url.Action("Checkout")">Mua hàng</a><a class="btn btn-outline-secondary w-100 mt-2" href="@Url.Action("Index", "Home")">Tiếp tục mua hàng</a>@using (Html.BeginForm("ClearCart", "Cart", FormMethod.Post, new { @class = "mt-2" })) { @Html.AntiForgeryToken() <button class="btn btn-link text-danger w-100" type="submit">Xóa hết giỏ hàng</button> }</aside></div>
+}
