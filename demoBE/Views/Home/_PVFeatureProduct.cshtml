@@ -1,0 +1,21 @@
+@model demoBE.Models.ViewModel.HomeProductVM
+<section class="product-section" aria-labelledby="featuredTitle">
+    <div class="section-heading"><h2 id="featuredTitle">Sản phẩm nổi bật</h2><span>Top 10 theo số lượng đã bán</span></div>
+    @if (Model.FeaturedProducts.Any())
+    {
+        <div class="featured-track">
+            @foreach (var product in Model.FeaturedProducts)
+            {
+                var imageUrl = string.IsNullOrWhiteSpace(product.ProductImage) ? Url.Content("~/Content/images/product-placeholder.svg") : Url.Content(product.ProductImage);
+                <article class="product-card featured-card">
+                    <a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })"><img src="@imageUrl" alt="@product.ProductName" onerror="this.onerror=null;this.src='@Url.Content("~/Content/images/product-placeholder.svg")';" /></a>
+                    <div class="product-card-body"><p class="product-category">@(product.Category == null ? "Chưa phân loại" : product.Category.CategoryName)</p><h3><a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })">@product.ProductName</a></h3><strong>@product.ProductPrice.ToString("N0") ₫</strong></div>
+                </article>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="empty-state">Chưa có sản phẩm phù hợp.</p>
+    }
+</section>

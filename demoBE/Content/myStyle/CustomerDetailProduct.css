@@ -1,0 +1,20 @@
+.detail-product { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2.5rem; background: #fff; border-radius: 1rem; padding: 2rem; box-shadow: 0 3px 12px rgba(15, 23, 42, .08); }
+.detail-image img { width: 100%; aspect-ratio: 1; object-fit: cover; background: #e2e8f0; border-radius: .75rem; }
+.detail-category, .detail-sold { color: #64748b; }
+.detail-price { color: #b91c1c; font-size: 1.75rem; font-weight: 700; }
+.detail-description { white-space: pre-line; color: #334155; }
+.purchase-form { margin-top: 1.5rem; }
+.quantity-row { display: flex; align-items: center; gap: 1rem; margin: .5rem 0 1rem; }
+.quantity-row input { max-width: 110px; }
+.detail-section { margin-top: 2.5rem; }
+.detail-section h2 { color: #172554; margin-bottom: 1rem; }
+.related-track { display: flex; overflow-x: auto; gap: 1rem; }
+.related-card { flex: 0 0 180px; background: #fff; border: 1px solid #e2e8f0; border-radius: .75rem; padding: .75rem; }
+.related-card img { width: 100%; height: 120px; object-fit: cover; background: #e2e8f0; border-radius: .5rem; }
+.related-card h3 { font-size: .95rem; margin: .75rem 0 .5rem; }
+.related-card a { color: #172554; text-decoration: none; }
+.top-deals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.top-deals-grid article { padding: 1rem; background: #fff; border-left: 4px solid #0f766e; border-radius: .5rem; }
+.top-deals-grid h3 { font-size: 1rem; margin: 0 0 .5rem; }
+.top-deals-grid a { color: #172554; text-decoration: none; }
+@media (max-width: 768px) { .detail-product { grid-template-columns: 1fr; padding: 1.25rem; } .quantity-row { align-items: flex-start; flex-direction: column; gap: .5rem; } }

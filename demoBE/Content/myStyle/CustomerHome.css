@@ -1,0 +1,25 @@
+.customer-page { background: #f7f8fa; color: #1e293b; }
+.customer-navbar { background: #172554; }
+.customer-content { min-height: calc(100vh - 180px); padding-top: 2rem; }
+.customer-footer { background: #172554; color: #dbeafe; padding: 1.25rem 0; }
+.customer-footer a { color: #fff; }
+.customer-hero { padding: 3rem; border-radius: 1rem; background: linear-gradient(120deg, #1e3a8a, #0f766e); color: #fff; margin-bottom: 1.5rem; }
+.customer-hero h1 { font-size: clamp(2rem, 5vw, 3.25rem); max-width: 680px; }
+.search-panel { padding: 1.25rem; background: #fff; border-radius: .75rem; box-shadow: 0 3px 12px rgba(15, 23, 42, .08); margin-bottom: 1.5rem; }
+.product-section { margin: 2.25rem 0; }
+.section-heading { display: flex; gap: 1rem; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+.section-heading h2, .page-heading h1 { color: #172554; margin: 0; }
+.section-heading span { color: #64748b; font-size: .9rem; }
+.featured-track { display: flex; overflow-x: auto; gap: 1rem; padding-bottom: .5rem; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
+.product-card { overflow: hidden; background: #fff; border: 1px solid #e2e8f0; border-radius: .75rem; height: 100%; }
+.featured-card { flex: 0 0 220px; }
+.product-card img { width: 100%; height: 165px; object-fit: cover; background: #e2e8f0; }
+.product-card-body { padding: 1rem; }
+.product-card h2, .product-card h3 { font-size: 1.05rem; margin: .25rem 0 .65rem; }
+.product-card a { color: #172554; text-decoration: none; }
+.product-category { color: #64748b; font-size: .85rem; margin: 0; }
+.product-description { color: #475569; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.empty-state { padding: 1.25rem; border: 1px dashed #94a3b8; border-radius: .75rem; background: #fff; color: #475569; }
+.pagination { margin-top: 1.5rem; }
+@media (max-width: 576px) { .customer-hero { padding: 2rem 1.25rem; } .section-heading { display: block; } }

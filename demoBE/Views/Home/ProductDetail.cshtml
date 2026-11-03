@@ -1,0 +1,40 @@
+@model demoBE.Models.ViewModel.ProductDetailVM
+@{
+    ViewBag.Title = Model.Product.ProductName;
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    var imageUrl = string.IsNullOrWhiteSpace(Model.Product.ProductImage) ? Url.Content("~/Content/images/product-placeholder.svg") : Url.Content(Model.Product.ProductImage);
+}
+@section styles { <link href="@Url.Content("~/Content/myStyle/CustomerDetailProduct.css")" rel="stylesheet" /> }
+<section class="detail-product">
+    <div class="detail-image"><img src="@imageUrl" alt="@Model.Product.ProductName" onerror="this.onerror=null;this.src='@Url.Content("~/Content/images/product-placeholder.svg")';" /></div>
+    <div class="detail-info">
+        <p class="detail-category">@(Model.Product.Category == null ? "Chưa phân loại" : Model.Product.Category.CategoryName)</p>
+        <h1>@Model.Product.ProductName</h1>
+        <p class="detail-price">@Model.Product.ProductPrice.ToString("N0") ₫</p>
+        <p class="detail-sold">Đã bán: @Model.UnitsSold</p>
+        <p class="detail-description">@Model.Product.ProductDecription</p>
+        @using (Html.BeginForm("ProductDetail", "Home", FormMethod.Post, new { @class = "purchase-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("productID", Model.Product.ProductID)
+            <label for="quantity">Số lượng</label>
+            <div class="quantity-row"><input class="form-control" id="quantity" type="number" name="quantity" min="1" max="99" value="@Model.Quantity" /><span>Tạm tính: <strong id="estimatedValue" data-unit-price="@Model.Product.ProductPrice">@Model.EstimatedValue.ToString("N0") ₫</strong></span></div>
+            <div class="d-flex gap-2 flex-wrap"><button class="btn btn-primary" type="submit">Thêm vào giỏ hàng</button><a class="btn btn-outline-secondary" href="@Url.Action("Index", "Cart")">Xem giỏ hàng</a></div>
+        }
+    </div>
+</section>
+@Html.Partial("_PVRelatedProduct", Model)
+@Html.Partial("_PVTopProduct", Model)
+@section scripts {
+    <script>
+        (function () {
+            var quantity = document.getElementById('quantity');
+            var estimated = document.getElementById('estimatedValue');
+            if (!quantity || !estimated) return;
+            quantity.addEventListener('input', function () {
+                var value = Math.max(1, Math.min(99, parseInt(quantity.value, 10) || 1));
+                estimated.textContent = (Number(estimated.dataset.unitPrice) * value).toLocaleString('vi-VN') + ' ₫';
+            });
+        }());
+    </script>
+}

@@ -1,0 +1,12 @@
+@model demoBE.Models.ViewModel.PersonalMenuVM
+<ul class="navbar-nav ms-auto align-items-lg-center">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="personalMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">@(Model.IsLoggedIn ? "Xin chào, " + Model.Username : "Tài khoản")</a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="personalMenu">
+            <li><span class="dropdown-item-text text-muted">Tài khoản sẽ triển khai sau</span></li>
+        </ul>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link customer-cart-link" href="@Url.Action("Index", "Cart", new { area = "" })">Giỏ hàng <span class="badge rounded-pill text-bg-light">@Model.CartCount</span></a>
+    </li>
+</ul>

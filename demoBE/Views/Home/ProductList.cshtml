@@ -1,0 +1,30 @@
+@using PagedList.Mvc
+@model demoBE.Models.ViewModel.ProductListVM
+@{
+    ViewBag.Title = Model.Category.CategoryName;
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+@section styles { <link href="@Url.Content("~/Content/myStyle/CustomerHome.css")" rel="stylesheet" /> }
+<section class="page-heading"><p class="text-uppercase">Danh mục</p><h1>@Model.Category.CategoryName</h1></section>
+@using (Html.BeginForm("ProductList", "Home", FormMethod.Get, new { @class = "row g-2 search-panel" }))
+{
+    @Html.Hidden("categoryId", Model.Category.CategoryID)
+    <div class="col-md-6"><label class="form-label" for="searchTerm">Tìm trong danh mục</label><input class="form-control" id="searchTerm" name="searchTerm" value="@Model.SearchTerm" /></div>
+    <div class="col-md-4"><label class="form-label" for="sortOrder">Sắp xếp</label><select class="form-select" id="sortOrder" name="sortOrder"><option value="name_asc" @(Model.SortOrder == "name_asc" ? "selected" : "")>Tên A-Z</option><option value="name_desc" @(Model.SortOrder == "name_desc" ? "selected" : "")>Tên Z-A</option><option value="price_asc" @(Model.SortOrder == "price_asc" ? "selected" : "")>Giá tăng dần</option><option value="price_desc" @(Model.SortOrder == "price_desc" ? "selected" : "")>Giá giảm dần</option></select></div>
+    <div class="col-md-2 d-grid align-self-end"><button class="btn btn-primary" type="submit">Áp dụng</button></div>
+}
+@if (Model.Products != null && Model.Products.Any())
+{
+    <div class="product-grid">
+        @foreach (var product in Model.Products)
+        {
+            var imageUrl = string.IsNullOrWhiteSpace(product.ProductImage) ? Url.Content("~/Content/images/product-placeholder.svg") : Url.Content(product.ProductImage);
+            <article class="product-card"><a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })"><img src="@imageUrl" alt="@product.ProductName" onerror="this.onerror=null;this.src='@Url.Content("~/Content/images/product-placeholder.svg")';" /></a><div class="product-card-body"><h2><a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })">@product.ProductName</a></h2><p class="product-description">@product.ProductDecription</p><strong>@product.ProductPrice.ToString("N0") ₫</strong></div></article>
+        }
+    </div>
+    @Html.PagedListPager(Model.Products, currentPage => Url.Action("ProductList", new { categoryId = Model.Category.CategoryID, searchTerm = Model.SearchTerm, sortOrder = Model.SortOrder, page = currentPage }), new PagedListRenderOptions { LiElementClasses = new[] { "page-item" } })
+}
+else
+{
+    <p class="empty-state">Danh mục này chưa có sản phẩm phù hợp.</p>
+}

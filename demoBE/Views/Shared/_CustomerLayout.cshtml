@@ -1,0 +1,63 @@
+@using System.Collections.Generic
+@using System.Linq
+@using demoBE.Models
+@using demoBE.Models.ViewModel
+@{
+    List<Category> categories;
+    using (var layoutDb = new MyStoreEntities())
+    {
+        categories = layoutDb.Category.OrderBy(category => category.CategoryName).ToList();
+    }
+
+    var personalMenu = new PersonalMenuVM
+    {
+        IsLoggedIn = false,
+        CartCount = new CartService(Session).GetCart().TotalQuantity
+    };
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - MyStore</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("styles", required: false)
+</head>
+<body class="customer-page">
+    <header class="customer-header">
+        <nav class="navbar navbar-expand-lg navbar-dark customer-navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="@Url.Action("Index", "Home", new { area = "" })">MyStore</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#customerNavigation" aria-controls="customerNavigation" aria-expanded="false" aria-label="Mở menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="customerNavigation">
+                    @Html.Partial("_CategoryMenu", categories)
+                    @Html.Partial("_PersonalMenu", personalMenu)
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container customer-content">
+        @if (TempData["CartSuccess"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">@TempData["CartSuccess"]<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button></div>
+        }
+        @if (TempData["CartError"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">@TempData["CartError"]<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button></div>
+        }
+        @RenderBody()
+    </main>
+    <footer class="customer-footer mt-5">
+        <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+            <span>© @DateTime.Now.Year MyStore</span>
+            <a href="@Url.Action("Index", "Home", new { area = "Admin" })">Khu vực quản trị</a>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

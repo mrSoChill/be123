@@ -1,0 +1,20 @@
+@model IEnumerable<demoBE.Models.Category>
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Home", new { area = "" })">Trang chủ</a></li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="categoryMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">Danh mục</a>
+        <ul class="dropdown-menu" aria-labelledby="categoryMenu">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var category in Model)
+                {
+                    <li><a class="dropdown-item" href="@Url.Action("ProductList", "Home", new { area = "", categoryId = category.CategoryID })">@category.CategoryName</a></li>
+                }
+            }
+            else
+            {
+                <li><span class="dropdown-item-text text-muted">Chưa có danh mục</span></li>
+            }
+        </ul>
+    </li>
+</ul>

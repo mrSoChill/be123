@@ -1,0 +1,16 @@
+@using PagedList.Mvc
+@model demoBE.Models.ViewModel.ProductDetailVM
+<section class="detail-section" aria-labelledby="topTitle">
+    <h2 id="topTitle">Top deals cùng danh mục</h2>
+    @if (Model.TopProducts != null && Model.TopProducts.Any())
+    {
+        <div class="top-deals-grid">
+            @foreach (var product in Model.TopProducts)
+            {
+                <article><h3><a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })">@product.ProductName</a></h3><p>@product.ProductPrice.ToString("N0") ₫</p></article>
+            }
+        </div>
+        @Html.PagedListPager(Model.TopProducts, currentPage => Url.Action("ProductDetail", new { id = Model.Product.ProductID, quantity = Model.Quantity, page = currentPage }), new PagedListRenderOptions { LiElementClasses = new[] { "page-item" } })
+    }
+    else { <p class="empty-state">Chưa có sản phẩm cùng danh mục để xếp hạng.</p> }
+</section>
